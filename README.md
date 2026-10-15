@@ -90,6 +90,10 @@ extend the same idea to their own serverless HTTP compute products.
 
 ### How a request flows
 
+<p align="center">
+  <img src="assets/how-prism-works.png" alt="How Prism works: your tool connects to the local rotator on 127.0.0.1:9292, which routes each request through a short-lived Cloudflare Workers, GCP Cloud Functions, or Azure Functions relay, so the target sees rotating cloud edge IPs instead of your real IP" width="900">
+</p>
+
 ```
 your tool (curl / Burp / httpx / browser)
     -> local mitmproxy on 127.0.0.1:9292 (rotator_addon.py)
