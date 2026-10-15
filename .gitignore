@@ -1,0 +1,41 @@
+# Live credentials -- NEVER commit. Copy prism.json.example -> prism.json instead.
+prism.json
+
+# Auto-generated list of deployed relay URLs (per-engagement, not source).
+endpoints.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# mitmproxy local CA / state
+.mitmproxy/
+
+# run_linux_tests.sh artifacts. Normally cleaned up on exit, but they survive
+# a crash or a kill -9 -- and .prism_up.out is captured rotator output, so it
+# contains live relay URLs.
+.prism_up.out
+.prism_ctl
+
+# Backups of the live config, e.g. `cp prism.json prism.json.bak`.
+*.bak
+
+# Generic credential files -- none are used today; these are a backstop so a
+# stray one can never be committed by accident.
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

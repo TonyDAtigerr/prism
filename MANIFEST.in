@@ -1,0 +1,6 @@
+# Ensure the bundled relay sources land in the sdist too (package_data already
+# covers the wheel). Runtime state (prism.json / endpoints.json) is intentionally
+# left out -- it lives in the user's working directory, not the install.
+recursive-include prism *.js *.json *.txt
+global-exclude __pycache__/*
+global-exclude *.pyc

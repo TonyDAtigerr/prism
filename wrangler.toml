@@ -1,0 +1,16 @@
+# Manual single-Worker deployment via the official Wrangler CLI.
+# Use this path if you only need a handful of endpoints and want the
+# officially supported deploy flow. For deploying many endpoints quickly,
+# use cloudflare_relay_manager.py instead (it talks to the Cloudflare API directly,
+# the same way cloud-proxy drove the AWS API in the original write-up).
+#
+# name = the subdomain the Worker will be reachable at:
+#   https://<name>.<your-workers-dev-subdomain>.workers.dev
+# Pick your own -- this is just a placeholder, not a required convention.
+name = "my-relay-01"
+main = "prism/worker.js"
+compatibility_date = "2026-08-01"
+
+# After `wrangler deploy`, set the auth token as a secret rather than
+# hardcoding it in worker.js:
+#   wrangler secret put RELAY_AUTH_TOKEN

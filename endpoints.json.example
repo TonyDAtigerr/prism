@@ -1,0 +1,5 @@
+[
+  { "name": "myproxy-a1b2c3", "url": "https://myproxy-a1b2c3.yoursubdomain.workers.dev", "provider": "cloudflare" },
+  { "name": "myproxy-d4e5f6", "url": "https://myproxy-d4e5f6.yoursubdomain.workers.dev", "provider": "cloudflare" },
+  { "name": "myproxy-g7h8i9", "url": "https://myproxy-g7h8i9.yoursubdomain.workers.dev", "provider": "cloudflare" }
+]

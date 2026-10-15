@@ -1,0 +1,63 @@
+// prism.json.example -- an ANNOTATED reference for prism.json.
+//
+// You normally do NOT write prism.json by hand: `prism init` generates it, and
+// `prism config` toggles the optional knobs below. The REAL prism.json is plain
+// JSON (no comments) -- this file just documents what each field is for. Never
+// commit your real prism.json; it holds live credentials.
+
+{
+  // Which cloud the relays deploy to: "cloudflare", "gcp", or "azure".
+  "provider": "cloudflare",
+
+  // --- provider credentials (only your chosen provider's fields are needed) ---
+  // Cloudflare:
+  "api_token": "PASTE_YOUR_CLOUDFLARE_API_TOKEN_HERE",    // token with Workers edit rights
+  "account_id": "PASTE_YOUR_CLOUDFLARE_ACCOUNT_ID_HERE",  // your Cloudflare account ID
+  // GCP instead uses:   "gcp_project_id", "gcp_region"
+  // Azure instead uses: "azure_resource_group", "azure_storage_account", "azure_region"
+  // (`prism init` prompts for whichever provider you pick; see the README.)
+
+  // Shared secret the rotator sends and every relay checks (the X-Relay-Auth
+  // header). Treat it like a password; rotate it between engagements.
+  "auth_token": "GENERATE_A_LONG_RANDOM_SECRET_HERE",
+
+  // Prefix every deployed relay's name gets (it becomes part of the relay URL).
+  "relay_prefix": "myproxy",
+
+  // ========================================================================
+  // OPTIONAL rotator knobs -- all off/baseline unless set. Toggle these with
+  // `prism config <knob> <value>`; you don't have to hand-edit them here.
+  // ========================================================================
+
+  // Browser TLS impersonation (GCP/Azure only). true = the relay reproduces a
+  // real browser's TLS + HTTP/2 handshake, so the target sees a genuine browser
+  // JA3/JA4 fingerprint instead of the cloud runtime's. Needs `up --redeploy`.
+  "impersonate": false,
+
+  // IP-burning: retire a relay after it has served this many requests (deploy a
+  // fresh one with a new IP, delete the old) so no single IP builds up target-
+  // side reputation over a long engagement. 0 = off.
+  // Recommended if you turn it on: 100 (lower = more anonymity, more deploy churn/cost).
+  "burn_after_requests": 0,
+  // ...or retire a relay by age instead: after this many seconds in the pool. 0 = off.
+  // Recommended if you turn it on: 1800 (30 min).
+  "burn_after_seconds": 0,
+
+  // Pacing: random delay (seconds) added before EVERY request is forwarded, to
+  // avoid velocity/rate-based detection. Both 0 = off.
+  // Recommended if you turn it on: min 2, max 6 (a jittered few-second delay).
+  "pacing_min_seconds": 0,
+  "pacing_max_seconds": 0,
+
+  // Sticky sessions: the same (client, target host) keeps the same relay +
+  // identity for this long, so a multi-step login/OAuth flow doesn't jump source
+  // IP mid-flow. 0 = a fresh pick on every request.
+  // Recommended: 300 (5 min, the default) covers a typical login/OAuth flow; raise
+  // it for longer authenticated sessions, or set 0 for independent one-shot probes.
+  "sticky_seconds": 300,
+
+  // Upstream proxy: route the rotator->relay leg through a burner (VPS/VPN/Tor),
+  // e.g. "socks5://127.0.0.1:9050". Main use: Cloudflare appends the connecting
+  // IP to X-Forwarded-For, so this makes that leaked IP a burner, not yours.
+  "upstream_proxy": null
+}

@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prism-relay"
+version = "0.2.0"
+description = "Rotating-source-IP proxy infrastructure for authorized red-team engagements, on serverless cloud functions."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "requests>=2.31",
+    "mitmproxy>=10.0",
+    "httpx[socks]>=0.27",
+]
+
+[project.scripts]
+prism = "prism.cli:main"
+
+# Proper package layout: all modules live under prism/, so a normal (non-editable)
+# install carries the bundled data with them and produces a self-contained wheel.
+[tool.setuptools]
+packages = ["prism"]
+include-package-data = true
+
+# Non-.py files that must ship inside the wheel next to the modules: the rotator's
+# User-Agent pool, the Cloudflare worker source, and the GCP/Azure function source
+# trees that the managers zip and deploy. All are loaded via Path(__file__).parent.
+[tool.setuptools.package-data]
+prism = [
+    "useragents.json",
+    "worker.js",
+    "gcp_relay_function/*",
+    "azure_relay_function/*",
+]

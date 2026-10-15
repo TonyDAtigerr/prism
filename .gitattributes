@@ -1,0 +1,12 @@
+# This repo is edited on Windows and run on Linux, so line endings matter.
+# Shell scripts MUST stay LF: checked out with CRLF, bash fails them with
+# "bad interpreter: /usr/bin/env bash^M" or "$'\r': command not found".
+*.sh text eol=lf
+
+# Same reasoning for anything else executed rather than just read.
+*.py text eol=lf
+*.js text eol=lf
+
+# Let git normalize the rest, and never touch binaries.
+* text=auto
+*.png binary
